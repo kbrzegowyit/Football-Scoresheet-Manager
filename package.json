@@ -2,7 +2,8 @@
   "name": "football-scoresheet-manager",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:watch": "tsc -w -p tsconfig.json",
@@ -13,6 +14,10 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.8.6",
+    "@types/sqlite3": "^3.1.9",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6"
   }
 }

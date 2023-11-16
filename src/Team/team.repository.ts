@@ -16,4 +16,14 @@ export class TeamRepository {
         const sql = `INSERT INTO teams (name) VALUES (?)`;
         return this.dao.run(sql, [team.getName()]);
     }
+
+    public async retrieveAll() {
+        const sql = `SELECT * FROM teams`;
+        return this.dao.all(sql, []);
+    }
+
+    public async retrieveOne(name: TeamEntity['name']) {
+        const sql = `SELECT * FROM teams WHERE name = ?`;
+        return this.dao.get(sql, [name]);
+    }
 }

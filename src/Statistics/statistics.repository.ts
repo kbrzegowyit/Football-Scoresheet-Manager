@@ -1,3 +1,4 @@
+import { LeagueEntity } from "../League/league.entity";
 import { AppDAO } from "../types";
 import { StatisticsEntity } from "./statistics.entity";
 
@@ -19,6 +20,7 @@ export class StatiscticsRepository {
     };
 
     public async create(statistics: StatisticsEntity) {
+        console.log(statistics);
         const sql = `INSERT INTO statistics (points, team_id, league_id) VALUES (?, ?, ?)`;
         return this.dao.run(sql, [statistics.getPoints(), statistics.getTeamId(), statistics.getLeagueId()]);
     }
@@ -26,5 +28,14 @@ export class StatiscticsRepository {
     public async update(statistics: StatisticsEntity) {
        const sql = `UPDATE statistics SET points = ? WHERE id = ?`;
        return this.dao.run(sql, [statistics.getPoints(), statistics.getId()]);
+    }
+
+    public async retirieveAllByLeague(leagueName: LeagueEntity['name']) {
+        const sql = `SELECT leagues.name as "league_name", teams.name as "team_name", count(teams.name) as "rounds", sum(statistics.points) as "points" FROM statistics
+        INNER JOIN teams ON statistics.team_id = teams.id
+        INNER JOIN leagues ON statistics.league_id = leagues.id
+        WHERE leagues.name = ?
+        GROUP BY teams.name;`;
+        return this.dao.all(sql, [leagueName]);
     }
 }

@@ -1,10 +1,15 @@
+import { LeagueGuard } from "./League/league.guard.js";
 import { LeagueRepository } from "./League/league.repository.js";
-import { Points, StatisticsEntity } from "./Statistic/statistics.entity.js";
-import { StatiscticsRepository } from "./Statistic/statistics.repository.js";
+import { LeagueService } from "./League/league.service.js";
+import { StatisticsGuard } from "./Statistics/statistics.guard.js";
+import { StatiscticsRepository } from "./Statistics/statistics.repository.js";
+import { StatisticsService } from "./Statistics/statistics.service.js";
+import { TeamGuard } from "./Team/team.guard.js";
 import { TeamRepository } from "./Team/team.repository.js";
+import { TeamService } from "./Team/team.service.js";
+import { CLIService } from "./cli/cli.service.js";
 import { DAO } from "./dao.js";
 
-// Rozpocząć od dodania tabeli statistics
 
 export class Main {
     public static async start() {
@@ -16,21 +21,27 @@ export class Main {
         await teamRepository.createTable();
         await leagueRepository.createTable();
         await statisticsRepository.createTable();
-        
-        // const fcBarcelona = new TeamEntity().setName('Real Madryt');
-        // const fcBarcelonaRow = await teamRepository.create(fcBarcelona);
 
-        // const laLiga = new LeagueEntity().setName("La Liga");
-        // const laLigaRow = await leagueRepository.create(laLiga);
+        const teamGuard = new TeamGuard(teamRepository);
+        const leagueGuard = new LeagueGuard(leagueRepository);
+        const statisticsGuard = new StatisticsGuard();
 
-        const laLigaStatitistics = new StatisticsEntity().setPoints(Points.WIN).setTeamId(1).setLeagueId(1);
-        const laLigaStatitisticsRow = await statisticsRepository.create(laLigaStatitistics);
+        const teamService = new TeamService(teamRepository, teamGuard);
+        const leagueService = new LeagueService(leagueRepository, leagueGuard);
+        const statisticsService = new StatisticsService(statisticsRepository, statisticsGuard, teamRepository, teamGuard, leagueRepository, leagueGuard);
+        // const leagueService = new LeagueService(leagueRepository);
+        // const statisticsService = new StatisticsService(statisticsRepository);
+
+        // const team = await teamService.add({ name: 'Puszcza Niepołomice'});     
+        // const league = await leagueService.add({ name: 'Ekstraklasa' });
         
         // await statisticsRepository.update(laLigaStatitistics);;
 
-        // console.log('FC Barcelona ID:', fcBarcelonaRow);
-        // console.log('La Liga ID:', laLigaRow);
-        console.log('La Liga Statistic ID:', laLigaStatitisticsRow);
+        new CLIService(teamService, leagueService, statisticsService);
+
+        // console.log('Team ID:', team);
+        // console.log('League ID:', league);
+        // console.log('La Liga Statistic ID:', laLigaStatitisticsRow);
     }
 }
 

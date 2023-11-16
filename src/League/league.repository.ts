@@ -16,4 +16,14 @@ export class LeagueRepository {
         const sql = `INSERT INTO leagues (name) VALUES (?)`;
         return this.dao.run(sql, [league.getName()]);
     }
+
+    public async retrieveAll() {
+        const sql = `SELECT * FROM leagues`;
+        return this.dao.all(sql, []);
+    }
+
+    public async retrieveOne(name: LeagueEntity['name']) {
+        const sql = `SELECT * FROM leagues WHERE name = ?`;
+        return this.dao.get(sql, [name]);
+    }
 }

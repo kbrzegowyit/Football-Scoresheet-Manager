@@ -128,9 +128,9 @@ export class CLIService {
         try {
             let leagueName = await this.readUserInput(InputQuestions.READ_LEAGUE_NAME);
             const scoresheet = await this.statisticsService.getScoresheet(leagueName);
-            const scoresheetPretty = scoresheet.map((row, index) => ({ position: index + 1, team: row.team_name, matches: row.rounds, points: row.points }));
+            const scoresheetPretty = scoresheet.map((row, index) => ({ position: index + 1, team: row.teamName, matches: row.rounds, points: row.points }));
             this.clearScreen();
-            console.log(scoresheet[0].league_name);
+            console.log(scoresheet[0].leagueName);
             console.table(scoresheetPretty);
             await this.displayNavigationMenu();   
         } catch (error: any) {

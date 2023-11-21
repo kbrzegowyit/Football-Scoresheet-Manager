@@ -5,10 +5,12 @@ import { LeagueRepository } from "../League/league.repository";
 import { TeamNotFoundError } from "../Team/errors/TeamNotFound.error";
 import { TeamGuard } from "../Team/team.guard";
 import { TeamRepository } from "../Team/team.repository";
+import { Sorter } from "../sort/types";
 import { InvalidUserStatisticsDataError } from "./errors/InvalidUserStatisticsData.error";
 import { StatisticsEntity } from "./statistics.entity";
 import { StatisticsGuard } from "./statistics.guard";
 import { StatiscticsRepository } from "./statistics.repository"
+import { RetirieveAllByLeagueRow } from "./types";
 
 export interface StatisticsDTO {
     points: string,
@@ -23,7 +25,8 @@ export class StatisticsService {
         private readonly teamRepository: TeamRepository,
         private readonly teamGuard: TeamGuard,
         private readonly leagueRepository: LeagueRepository,
-        private readonly leagueGuard: LeagueGuard
+        private readonly leagueGuard: LeagueGuard,
+        private readonly sorter: Sorter,
     ) {}
 
     public async add(dto: StatisticsDTO) {
@@ -48,7 +51,13 @@ export class StatisticsService {
         const leagueExists = await this.leagueGuard.checkIfLeagueExists({ name: leagueName });
         if (!leagueExists) throw new LeagueNotFoundError();
 
-        const scoresheet: {league_name: string, team_name: string, rounds: number, points: number,  }[] = await this.statisticsRepository.retirieveAllByLeague(leagueName);
-        return scoresheet.sort((teamA, teamB) => teamB.points - teamA.points);
+        const scoresheet = await this.statisticsRepository.retirieveAllByLeague(leagueName);
+        // It allows to compare the objects by returning points during conversion.
+        const extended = scoresheet.map((obj) => {
+            obj['valueOf'] = () => obj.points;
+            return obj;
+        })
+        this.sorter.sort<RetirieveAllByLeagueRow>(extended);
+        return extended;
     }
 }

@@ -20,16 +20,16 @@ export const BASE_MENU_OPTIONS = {
         label: 'Show teams',
     },
     addTeam: {
-        label: 'Add team',
+        label: 'Add a team',
     },
     addLeague: {
-        label: 'Add league',
+        label: 'Add a league',
     },
     addStatistics: {
         label: 'Add statistics',
     },
     showScoresheet: {
-        label: 'Show scoresheet',
+        label: 'Show the scoresheet',
     },
     exit: NAVIGATION_MENU_OPTIONS.exit,
 };
@@ -37,7 +37,7 @@ export const BASE_MENU_OPTIONS = {
 export enum InputQuestions {
     READ_TEAM_NAME = 'Enter the team name',
     READ_LEAGUE_NAME = 'Enter the league name',
-    READ_TEAM_POINTS = 'Enter team points',
+    READ_TEAM_POINTS = 'Enter the team points',
     READ_OPTION_CHOICE = 'Enter the number of your choice (or press Ctrl+C to exit)',
 };
 

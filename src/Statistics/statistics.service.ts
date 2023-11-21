@@ -5,7 +5,7 @@ import { LeagueRepository } from "../League/league.repository";
 import { TeamNotFoundError } from "../Team/errors/TeamNotFound.error";
 import { TeamGuard } from "../Team/team.guard";
 import { TeamRepository } from "../Team/team.repository";
-import { Sorter } from "../sort/types";
+import { SortOrder, Sorter } from "../sort/types";
 import { InvalidUserStatisticsDataError } from "./errors/InvalidUserStatisticsData.error";
 import { StatisticsEntity } from "./statistics.entity";
 import { StatisticsGuard } from "./statistics.guard";
@@ -57,7 +57,7 @@ export class StatisticsService {
             obj['valueOf'] = () => obj.points;
             return obj;
         })
-        this.sorter.sort<RetirieveAllByLeagueRow>(extended);
+        this.sorter.sort<RetirieveAllByLeagueRow>(extended, SortOrder.Ascending);
         return extended;
     }
 }

@@ -12,7 +12,7 @@ import { DAO } from "./dao.js";
 import { Quicksort } from "./sort/quicksort.js";
 
 //Zarządzanie team, league, statistics
-//Testy
+//Testy https://medium.com/@vishwasacharya/node-js-testing-best-practices-and-frameworks-for-reliable-apps-656f1cc51426
 //Readme
 
 export class Main {

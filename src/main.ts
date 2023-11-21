@@ -9,7 +9,11 @@ import { TeamRepository } from "./Team/team.repository.js";
 import { TeamService } from "./Team/team.service.js";
 import { CLIService } from "./cli/cli.service.js";
 import { DAO } from "./dao.js";
+import { Quicksort } from "./sort/quicksort.js";
 
+//Zarządzanie team, league, statistics
+//Testy
+//Readme
 
 export class Main {
     public static async start() {
@@ -26,22 +30,21 @@ export class Main {
         const leagueGuard = new LeagueGuard(leagueRepository);
         const statisticsGuard = new StatisticsGuard();
 
+        const sorter = new Quicksort();
+
         const teamService = new TeamService(teamRepository, teamGuard);
         const leagueService = new LeagueService(leagueRepository, leagueGuard);
-        const statisticsService = new StatisticsService(statisticsRepository, statisticsGuard, teamRepository, teamGuard, leagueRepository, leagueGuard);
-        // const leagueService = new LeagueService(leagueRepository);
-        // const statisticsService = new StatisticsService(statisticsRepository);
-
-        // const team = await teamService.add({ name: 'Puszcza Niepołomice'});     
-        // const league = await leagueService.add({ name: 'Ekstraklasa' });
-        
-        // await statisticsRepository.update(laLigaStatitistics);;
+        const statisticsService = new StatisticsService(
+            statisticsRepository, 
+            statisticsGuard, 
+            teamRepository, 
+            teamGuard, 
+            leagueRepository, 
+            leagueGuard, 
+            sorter
+        );
 
         new CLIService(teamService, leagueService, statisticsService);
-
-        // console.log('Team ID:', team);
-        // console.log('League ID:', league);
-        // console.log('La Liga Statistic ID:', laLigaStatitisticsRow);
     }
 }
 

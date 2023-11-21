@@ -41,9 +41,9 @@ export class DAO implements AppDAO {
         });
     }
 
-    public async all(sql: string, params: string[]) {
+    public async all<T>(sql: string, params: string[]): Promise<T[]> {
         return new Promise((resolve, reject) => {
-            this.db.all(sql, params, function (err: any, rows: any) {
+            this.db.all(sql, params, function (err: any, rows: T[]) {
                 if (err) {
                     console.log('Error running sql', sql);
                     console.log(err);

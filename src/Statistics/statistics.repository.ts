@@ -1,6 +1,7 @@
 import { LeagueEntity } from "../League/league.entity";
 import { AppDAO } from "../types";
 import { StatisticsEntity } from "./statistics.entity";
+import { RetirieveAllByLeagueRow } from "./types";
 
 export class StatiscticsRepository {
     constructor(private readonly dao: AppDAO) {}
@@ -30,12 +31,12 @@ export class StatiscticsRepository {
        return this.dao.run(sql, [statistics.getPoints(), statistics.getId()]);
     }
 
-    public async retirieveAllByLeague(leagueName: LeagueEntity['name']) {
-        const sql = `SELECT leagues.name as "league_name", teams.name as "team_name", count(teams.name) as "rounds", sum(statistics.points) as "points" FROM statistics
+    public async retirieveAllByLeague(leagueName: LeagueEntity['name']): Promise<RetirieveAllByLeagueRow[]> {
+        const sql = `SELECT leagues.name as "leagueName", teams.name as "teamName", count(teams.name) as "rounds", sum(statistics.points) as "points" FROM statistics
         INNER JOIN teams ON statistics.team_id = teams.id
         INNER JOIN leagues ON statistics.league_id = leagues.id
         WHERE leagues.name = ?
         GROUP BY teams.name;`;
-        return this.dao.all(sql, [leagueName]);
+        return this.dao.all<RetirieveAllByLeagueRow>(sql, [leagueName]);
     }
 }

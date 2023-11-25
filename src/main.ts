@@ -11,8 +11,8 @@ import { CLIService } from "./cli/cli.service.js";
 import { DAO } from "./dao.js";
 import { Quicksort } from "./sort/quicksort.js";
 
-//Zarządzanie team, league, statistics
 //Testy https://medium.com/@vishwasacharya/node-js-testing-best-practices-and-frameworks-for-reliable-apps-656f1cc51426
+//error handling + zamykanie bazy
 //Readme
 
 export class Main {
@@ -44,7 +44,16 @@ export class Main {
             sorter
         );
 
-        new CLIService(teamService, leagueService, statisticsService);
+        try {
+            new CLIService(teamService, leagueService, statisticsService);            
+        } catch (error) {
+            console.log('Something has gone wrong...');
+        }
+
+        process.on('exit', () => {
+            console.log('Wychodze xd...');
+            dao.close()
+        });
     }
 }
 

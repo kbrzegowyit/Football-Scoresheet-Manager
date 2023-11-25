@@ -4,14 +4,13 @@ import { AppDAO } from "./types";
 export class DAO implements AppDAO {
     private readonly db;
     
-    constructor(dbFilePath: string) {
-        console.log('DAO!! :D', dbFilePath);
+    constructor(dbFilePath: string, verbose: boolean = true) {
         this.db = new sqlite3.Database(dbFilePath, (err: any) => {
             if (err) {
                 return console.error(err.message);
             }
         });
-        console.log('Connected to the database.');
+        if (verbose) console.log(`Connected to the ${dbFilePath} database.`);
     }
 
     public async run(sql: string, params: string[]) {
@@ -52,5 +51,9 @@ export class DAO implements AppDAO {
                 resolve(rows);
             });
         });
+    }
+
+    public close(): void {
+        this.db.close();
     }
 }

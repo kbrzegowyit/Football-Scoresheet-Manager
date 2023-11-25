@@ -1,5 +1,6 @@
 import { AppDAO } from "../types";
 import { TeamEntity } from "./team.entity";
+import { TeamSqlCommands } from "./types";
 
 export class TeamRepository {
     constructor(private readonly dao: AppDAO) {}
@@ -13,17 +14,22 @@ export class TeamRepository {
     };
 
     public async create(team: TeamEntity) {
-        const sql = `INSERT INTO teams (name) VALUES (?)`;
-        return this.dao.run(sql, [team.getName()]);
+        return this.dao.run(TeamSqlCommands.INSERT, [team.getName()]);
     }
 
-    public async retrieveAll() {
-        const sql = `SELECT * FROM teams`;
-        return this.dao.all(sql, []);
+    public async retrieveAll(): Promise<TeamEntity[]> {
+        return this.dao.all(TeamSqlCommands.SELECT_ALL, []);
     }
 
     public async retrieveOne(name: TeamEntity['name']) {
-        const sql = `SELECT * FROM teams WHERE name = ?`;
-        return this.dao.get(sql, [name]);
+        return this.dao.get(TeamSqlCommands.SELECT_BY_NAME, [name]);
+    }
+
+    public async delete(name: TeamEntity['name']) {
+        return this.dao.run(TeamSqlCommands.DELETE_BY_NAME, [name]);
+    }
+
+    public async updateByName(team: TeamEntity, update: TeamEntity) {
+        return this.dao.run(TeamSqlCommands.UPDATE_BY_NAME, [update.getName(), team.getName()]);
     }
 }

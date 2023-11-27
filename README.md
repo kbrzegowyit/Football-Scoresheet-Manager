@@ -1,4 +1,10 @@
 # Football Scoresheet Manager
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Mocha](https://img.shields.io/badge/Mocha-8D6748?style=for-the-badge&logo=mocha&logoColor=white)](https://mochajs.org/)
+![[License]](https://badgen.net/github/license/micromatch/micromatch)
+![GitHub last commit](https://img.shields.io/github/last-commit/kbrzegowyit/Football-Scoresheet-Manager)
 
 ## About the project
 FSM is an educational project. It was designed to manage scoresheets.

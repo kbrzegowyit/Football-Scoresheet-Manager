@@ -17,8 +17,11 @@ export class CLIService {
             console.log('Goodbye!');
             process.exit(0);
         });
+    }
+
+    public async start(): Promise<void> {
         this.clearScreen();
-        this.displayMainMenu();
+        await this.displayMainMenu();
     }
 
     private async displayMainMenu() {
@@ -111,6 +114,9 @@ export class CLIService {
                 await this.displayAddStatistics();
                 break;
             case '3':
+                await this.displayAssignTeamToLeague();
+                break;
+            case '4':
                 await this.displayMainMenu();
                 break;
             default:
@@ -249,7 +255,8 @@ export class CLIService {
         try {
             let leagueName = await this.readUserInput(InputQuestions.READ_LEAGUE_NAME);
             const scoresheet = await this.statisticsService.getScoresheet(leagueName);
-            const scoresheetPretty = scoresheet.map((row, index) => ({ position: index + 1, team: row.teamName, matches: row.rounds, points: row.points }));
+            // We reduce the number of rounds by 1 because the first round is not counted beacause of assignment.
+            const scoresheetPretty = scoresheet.map((row, index) => ({ position: index + 1, team: row.teamName, matches: row.rounds - 1, points: row.points }));
             this.clearScreen();
             console.log(scoresheet[0].leagueName);
             console.table(scoresheetPretty);
@@ -259,6 +266,20 @@ export class CLIService {
             this.failMessage(error.message);
             await this.displayMainMenu();
         }
+    }
+
+    private async displayAssignTeamToLeague() {
+        try {
+            let teamName = await this.readUserInput(InputQuestions.READ_TEAM_NAME);
+            let leagueName = await this.readUserInput(InputQuestions.READ_LEAGUE_NAME);
+            await this.statisticsService.assignTeamToLeague({ teamName, leagueName });
+            this.clearScreen();
+            this.successMessage(Messages.ASSIGN_TEAM_TO_LEAGUE_SUCCESS);
+        } catch (error: any) {
+            this.clearScreen();
+            this.failMessage(error.message);
+        }
+        await this.displayMainMenu();
     }
 
     private readUserInput(question: InputQuestions): Promise<string> {

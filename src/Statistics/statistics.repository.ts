@@ -21,7 +21,6 @@ export class StatiscticsRepository {
     };
 
     public async create(statistics: StatisticsEntity) {
-        console.log(statistics);
         const sql = `INSERT INTO statistics (points, team_id, league_id) VALUES (?, ?, ?)`;
         return this.dao.run(sql, [statistics.getPoints(), statistics.getTeamId(), statistics.getLeagueId()]);
     }
@@ -38,5 +37,10 @@ export class StatiscticsRepository {
         WHERE leagues.name = ?
         GROUP BY teams.name;`;
         return this.dao.all<RetirieveAllByLeagueRow>(sql, [leagueName]);
+    }
+
+    public async assignTeamToLeague(statistics: StatisticsEntity) {
+        const sql = `INSERT INTO statistics (points, team_id, league_id) VALUES (?, ?, ?)`;
+        return this.dao.run(sql, ['0', statistics.getTeamId(), statistics.getLeagueId()]);
     }
 }

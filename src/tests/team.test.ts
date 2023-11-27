@@ -15,10 +15,10 @@ let teamGuard: TeamGuard;
 let teamService: TeamService;
 
 const mockDependence = {} as any;
+const dbPath = './integration-team-tests.sqlite3';
 
 describe('Team', () => {
     beforeEach(async () => {
-        const dbPath = './integration-team-tests.sqlite3';
         const exists = existsSync(dbPath);
         if (exists) unlinkSync(dbPath);
         dao = new DAO(dbPath, false);
@@ -30,6 +30,11 @@ describe('Team', () => {
 
     afterEach(() => {
         dao.close();
+    });
+
+    after(() => {
+        const exists = existsSync(dbPath);
+        if (exists) unlinkSync(dbPath);
     });
 
     describe('add', async () => {

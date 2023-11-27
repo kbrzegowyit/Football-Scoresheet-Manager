@@ -11,8 +11,8 @@ import { CLIService } from "./cli/cli.service.js";
 import { DAO } from "./dao.js";
 import { Quicksort } from "./sort/quicksort.js";
 
-//Testy https://medium.com/@vishwasacharya/node-js-testing-best-practices-and-frameworks-for-reliable-apps-656f1cc51426
-//error handling + zamykanie bazy
+
+// asign team to league
 //Readme
 
 export class Main {
@@ -44,16 +44,17 @@ export class Main {
             sorter
         );
 
-        try {
-            new CLIService(teamService, leagueService, statisticsService);            
-        } catch (error) {
-            console.log('Something has gone wrong...');
-        }
-
-        process.on('exit', () => {
-            console.log('Wychodze xd...');
+        process.on('exit', (code) => {
+            if (code === 1) console.log('Fatal error! Closing the application...');
             dao.close()
         });
+
+        try {
+            const cli = new CLIService(teamService, leagueService, statisticsService);
+            await cli.start();   
+        } catch (error) {
+            process.exit(1);
+        }
     }
 }
 

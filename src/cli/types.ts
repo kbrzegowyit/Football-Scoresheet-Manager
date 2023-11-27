@@ -53,17 +53,20 @@ export const LEAGUE_MENU_OPTIONS = {
 
 export const STATISTICS_MENU_OPTIONS = {
     showScoresheet: {
-        label: 'Show',
+        label: 'Show scoresheet',
     },
     addStatistics: {
-        label: 'Add',
+        label: 'Add points to team',
+    },
+    assignTeamToLeague: {
+        label: 'Assign team to league',
     },
     exit: NAVIGATION_MENU_OPTIONS.exit,
 };
 
 export enum InputQuestions {
     READ_TEAM_NAME = 'Enter the team name',
-    READ_TEAM_POINTS = 'Enter the team points',
+    READ_TEAM_POINTS = 'Enter the team points (0 -LOSE, 1 -DRAW, 3 -WIN)',
     READ_TEAM_UPDATE_NAME = 'Enter a new team name',
     READ_LEAGUE_NAME = 'Enter the league name',
     READ_OPTION_CHOICE = 'Enter the number of your choice (or press Ctrl+C to exit)',
@@ -75,6 +78,7 @@ export enum Messages {
     ADD_STATISTICS_SUCCESS = 'The statistics has been successfully added.',
     UPDATE_TEAM_SUCCESS = 'The team name has been successfully updated.',
     DELETE_TEAM_SUCCESS = 'The team has been successfully deleted.',
+    ASSIGN_TEAM_TO_LEAGUE_SUCCESS = 'The team has been successfully assigned to the league.',
     SELECT_OPTION_WARN = 'Invalid option. Please select a valid option.',
 }
 

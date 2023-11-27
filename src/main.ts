@@ -12,9 +12,6 @@ import { DAO } from "./dao.js";
 import { Quicksort } from "./sort/quicksort.js";
 
 
-// asign team to league
-//Readme
-
 export class Main {
     public static async start() {
         const dao = new DAO('./db.sqlite3');
